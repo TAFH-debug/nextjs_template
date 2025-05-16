@@ -1,6 +1,7 @@
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
 
 import { db } from "@/db/drizzle";
 
@@ -18,6 +19,7 @@ const handler = NextAuth({
     CredentialsProvider({
       name: "Credentials",
       credentials: {
+        email: { label: "Email", type: "email" },
         username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
       },
@@ -26,6 +28,10 @@ const handler = NextAuth({
 
         return user;
       },
+    }),
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
 });

@@ -23,19 +23,16 @@ export default function SignIn() {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    signIn("credentials", {
+    await signIn("credentials", {
       email,
       password,
+      redirect: false,
+      signup: true,
     });
-    console.log(window.location.href);
 
     router.push("/");
     router.refresh();
   };
-
-  const handleGoogleSignIn = async () => {
-    const result = await signIn("google", { callbackUrl: "/" });
-  }
 
   return (
     <Form className="justify-center items-center" onSubmit={handleSubmit}>
@@ -43,7 +40,6 @@ export default function SignIn() {
         <Input name="email" placeholder="Email" />
         <Input name="password" placeholder="Password" type="password" />
         <Button type="submit">Send</Button>
-        <Button onPress={handleGoogleSignIn}>Google Authentication</Button>
       </div>
     </Form>
   );
